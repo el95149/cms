@@ -23,6 +23,7 @@
         <!--<module>dataobjects</module>-->
         <module>client</module>
         <!--<module>integration-tests</module>-->
+        <module>frontend</module>
     </modules>
 	
     <properties>
