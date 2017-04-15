@@ -1,16 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>CMS Resources</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
-
-<link rel="stylesheet" th:href="@{/css/main.css}"
-	href="../../css/main.css" />
-
-</head>
+<head th:replace="fragments/head :: head"></head>
 <body>
 	<nav th:replace="fragments/header :: header"></nav>
 
@@ -18,7 +8,7 @@
 
 		<div class="starter-template">
 			<h1>CMS Resources</h1>
-			<h2>//TODO</h2>
+			<a href="createResource" class="btn btn-info" role="button">Create New</a>
 		</div>
 
 	</div>

@@ -1,15 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Sastix Sample CMS Front-end application</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-<link rel="stylesheet" type="text/css"
-	href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" />
-
-<link rel="stylesheet" th:href="@{/css/main.css}"
-	href="../../css/main.css" />
-
+<head th:replace="fragments/head :: head">
 </head>
 <body>
 
@@ -23,9 +14,9 @@
 		</div>
 
 	</div>
-	
+
 	<footer th:replace="fragments/footer :: footer"></footer>
-	
+
 	<!-- /.container -->
 
 	<script type="text/javascript"

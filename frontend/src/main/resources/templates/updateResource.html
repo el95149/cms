@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+	<nav th:replace="fragments/header :: header"></nav>
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Update CMS Resource</h1>
+			<form id="resourceForm" action="#" th:action="@{/updateResource}" th:object="${resource}"
+				method="post">
+				<div class="form-group">
+					<label for="resourceAuthor">Author</label> <input type="text"
+						class="form-control" id="resourceAuthor"
+						th:field="*{resourceAuthor}" />
+					<div class="form-group has-error"
+						th:if="${#fields.hasErrors('resourceAuthor')}">
+						<span class="help-block" th:errors="*{resourceAuthor}"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="resourceName">Name</label> <input type="text"
+						class="form-control" id="resourceName" th:field="*{resourceName}" />
+					<div class="form-group has-error"
+						th:if="${#fields.hasErrors('resourceName')}">
+						<span class="help-block" th:errors="*{resourceName}"></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="resourceExternalURI">External URI</label> <input type="text"
+						class="form-control" id="resourceExternalURI" th:field="*{resourceExternalURI}" />
+					<div class="form-group has-error"
+						th:if="${#fields.hasErrors('resourceExternalURI')}">
+						<span class="help-block" th:errors="*{resourceExternalURI}"></span>
+					</div>
+				</div>
+				<input type="hidden" id="author" th:field="*{author}"/>
+				<input type="hidden" id="lockID" th:field="*{lockID}"/>
+				<input type="hidden" id="lockExpirationDate" th:field="*{lockExpirationDate}"/>
+				<input type="hidden" id="resourceUID" th:field="*{resourceUID}"/>
+				<button type="submit" class="btn btn-default">Update</button>
+				<button type="button" data-toggle="modal" data-target="#deleteModal" class="btn btn-default">Delete</button>
+			</form>
+		</div>
+
+	</div>
+
+<!-- Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Really destroy?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteResource()">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+	<footer th:replace="fragments/footer :: footer"></footer>
+
+	<!-- /.container -->
+
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" th:inline="javascript">
+		function deleteResource() {
+			var action = /*[[@{/deleteResource}]]*/ '/deleteResource';
+			document.getElementById('resourceForm').action = action;
+			document.getElementById('resourceForm').submit();
+		}
+	</script>
+
+</body>
+</html>
