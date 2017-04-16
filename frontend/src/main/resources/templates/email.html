@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+<body>
+	<nav th:replace="fragments/header :: header"></nav>
+
+	<div class="container">
+		<div class="starter-template">
+			<h1>Send E-mail</h1>
+			<div class="alert alert-success" th:if="${successMsg}">
+				<strong>Success!</strong> <span th:text="${successMsg}"></span>
+			</div>
+			<div class="alert alert-danger" th:if="${errorMsg}">
+				<strong>Error!</strong> <span th:text="${errorMsg}"></span>
+			</div>
+			<form data-toggle="validator" role="form" action="#"
+				th:action="@{/sendMail}" method="post">
+				<div class="form-group">
+					<label for="senderEmail" class="control-label">From</label> <input
+						type="email" class="form-control" id="senderEmail"
+						name="senderEmail" required="required" />
+					<div class="help-block with-errors"></div>
+				</div>
+				<div class="form-group">
+					<label for="recipientEmail">To</label> <input type="email"
+						class="form-control" id="recipientEmail" name="recipientEmail"
+						required="required" />
+					<div class="help-block with-errors"></div>
+				</div>
+				<div class="form-group">
+					<label for="subject">Subject</label> <input type="text"
+						class="form-control" id="subject" name="subject"
+						required="required" maxlength="255" />
+					<div class="help-block with-errors"></div>
+				</div>
+				<div class="form-group">
+					<label for="message">Message</label>
+					<textarea rows="3" class="form-control" id="message" name="message"
+						required="required" maxlength="500"></textarea>
+					<div class="help-block with-errors"></div>
+				</div>
+				<button type="submit" class="btn btn-default">Send</button>
+			</form>
+		</div>
+
+	</div>
+
+	<footer th:replace="fragments/footer :: footer"></footer>
+
+	<!-- /.container -->
+
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
