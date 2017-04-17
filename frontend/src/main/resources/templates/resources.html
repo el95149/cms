@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head"></head>
+<head th:replace="fragments/head :: head">
+</head>
 <body>
 	<nav th:replace="fragments/header :: header"></nav>
 
@@ -8,17 +9,49 @@
 
 		<div class="starter-template">
 			<h1>CMS Resources</h1>
-			<a href="createResource" class="btn btn-info" role="button">Create New</a>
+			<a href="createResource" class="btn btn-info" role="button">Create
+				New</a>
+		</div>
+
+		<div class="starter-template" style="margin-top: 20px">
+			<table id="resources" class="table table-striped table-bordered"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>Resource UID</th>
+						<th>Author</th>
+						<th>Resource URI</th>
+						<th data-orderable="false" data-searchable="false">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="resource: ${resources}">
+						<td th:text="${resource.resourceUID}"></td>
+						<td th:text="${resource.author}"></td>
+						<td th:text="${resource.resourceURI}"></td>
+						<td><a
+							th:href="@{/updateResource(uid=${resource.resourceUID})}">Edit</a></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 
 	</div>
-	
+
 	<footer th:replace="fragments/footer :: footer"></footer>
-	
+
 	<!-- /.container -->
 
 	<script type="text/javascript"
 		src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs/dt-1.10.13/datatables.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#resources').DataTable();
+		});
+	</script>
 </body>
 </html>

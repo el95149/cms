@@ -61,5 +61,9 @@ public interface ContentApi {
 
     byte[] getData(DataDTO dataDTO) throws ResourceAccessError, ContentValidationException, IOException;
 
-
+    /**
+     * Fetches the most current (i.e. non-deleted and updated) instance of each resource (sans pagination).
+     * @return a list of resources.
+     */
+    List<ResourceDTO> getCurrentResources(); 
 }

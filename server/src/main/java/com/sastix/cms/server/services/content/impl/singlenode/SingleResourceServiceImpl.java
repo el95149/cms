@@ -441,4 +441,9 @@ public class SingleResourceServiceImpl implements ResourceService {
         final byte[] responseData = Files.readAllBytes(responseFile);
         return responseData;
     }
+
+	@Override
+	public List<ResourceDTO> getCurrentResources() {
+		throw new UnsupportedOperationException();
+	}
 }

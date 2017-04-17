@@ -43,5 +43,10 @@ public interface ResourceRepository extends CrudRepository<Resource, Integer> {
 
     List<Resource> findByUidOrderByIdDesc(@Param("uid") String uid, Pageable pageable);
     List<Resource> findByUidOrderByIdAsc(@Param("uid") String uid, Pageable pageable);
+    
+    @Query("select r1.resource from Revision r1 where r1.title = "
+    		+ "(select max(r2.title) from Revision r2 where r1.resource = r2.resource)"
+    		+ " and r1.deletedAt is null order by r1.resource.id")
+    List<Resource> findCurrent();
 
 }

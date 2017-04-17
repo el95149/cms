@@ -57,6 +57,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Profile("production")
@@ -595,5 +596,11 @@ public class HazelcastResourceServiceImpl implements ResourceService {
         final byte[] responseData = Files.readAllBytes(responseFile);
         return responseData;
     }
+
+	@Override
+	public List<ResourceDTO> getCurrentResources() {
+		List<Resource> currentResources = resourceRepository.findCurrent();
+		return currentResources.stream().map(crs::convertToDTO).collect(Collectors.toCollection(ArrayList::new));
+	}
 
 }

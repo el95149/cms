@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping("/" + CmsServer.CONTEXT)
@@ -227,4 +228,12 @@ public class ResourceController implements BeanFactoryAware {
         String ret = resourceService.getParentResource(uuid);
         return ret;
     }
+    
+    @RequestMapping(value = "/v" + Constants.REST_API_1_0 + "/" + Constants.GET_CURRENT_RESOURCES, method = RequestMethod.GET)
+    public List<ResourceDTO> getCurrentResources() {
+        final List<ResourceDTO> resourceDTOs = resourceService.getCurrentResources();
+        LOG.trace("{}", resourceDTOs);
+        return resourceDTOs;
+    }
+    
 }

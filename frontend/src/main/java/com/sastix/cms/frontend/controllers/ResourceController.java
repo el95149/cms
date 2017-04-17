@@ -3,6 +3,8 @@
  */
 package com.sastix.cms.frontend.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -52,10 +54,8 @@ public class ResourceController {
 
 	@RequestMapping("/resources")
 	public String listResources(Model model) {
-		// String uid = cmsClient.getUID();
-		// ResourceQueryDTO resourceQueryDTO = new ResourceQueryDTO(uid);
-		// ResourceDTO resourceDTO = cmsClient.queryResource(resourceQueryDTO);
-		// LOG.info(resourceDTO.toString());
+		List<ResourceDTO> resources = cmsClient.getCurrentResources();
+		model.addAttribute("resources", resources);
 		return "resources";
 	}
 

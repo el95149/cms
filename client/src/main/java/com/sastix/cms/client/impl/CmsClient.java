@@ -397,4 +397,12 @@ public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFa
             throw new CacheValidationException(aClass + " object cannot be null!");
         }
     }
+
+	@Override
+	public List<ResourceDTO> getCurrentResources() {
+        StringBuilder url = new StringBuilder(getUrlRoot()).append(Constants.GET_CURRENT_RESOURCES);
+        LOG.debug("API call: " + url);
+        List resourceDTOs = retryRestTemplate.getForObject(url.toString(), List.class);
+		return resourceDTOs;
+	}
 }
