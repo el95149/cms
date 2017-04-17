@@ -446,4 +446,9 @@ public class SingleResourceServiceImpl implements ResourceService {
 	public List<ResourceDTO> getCurrentResources() {
 		throw new UnsupportedOperationException();
 	}
+
+	@Override
+	public List<RevisionDTO> getResourceRevisions(String resourceUID) {
+		throw new UnsupportedOperationException();
+	}
 }

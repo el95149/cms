@@ -17,6 +17,7 @@
 package com.sastix.cms.server.services.content.impl;
 
 import com.sastix.cms.common.content.ResourceDTO;
+import com.sastix.cms.common.content.RevisionDTO;
 import com.sastix.cms.common.content.exceptions.ContentValidationException;
 import com.sastix.cms.common.content.exceptions.ResourceAccessError;
 import com.sastix.cms.server.dataobjects.DataMaps;
@@ -72,24 +73,39 @@ public class CommonResourceServiceImpl {
         return revisions.isEmpty()?null:revisions.get(0);
     }
 
-    public ResourceDTO convertToDTO(Resource resource) {
-        ResourceDTO resourceDTO = null;
-        if (resource != null) {
-            resourceDTO = new ResourceDTO();
-            resourceDTO.setAuthor(resource.getAuthor());
-            resourceDTO.setResourceUID(resource.getUid());
-            resourceDTO.setResourceURI(resource.getUri());
-            Set<Resource> resources = resource.getResources();
-            if (resources != null && resources.size() > 0) {
-                List<ResourceDTO> resourceList = new ArrayList<>();
-                for (Resource resourceItem : resources) {
-                    resourceList.add(createDTO(resourceItem));
-                }
-                resourceDTO.setResourcesList(resourceList);
-            }
-        }
-        return resourceDTO;
-    }
+	public ResourceDTO convertToDTO(Resource resource) {
+		return convertToDTO(resource, true);
+	}
+
+	public ResourceDTO convertToDTO(Resource resource, boolean convertChidren) {
+		ResourceDTO resourceDTO = null;
+		if (resource != null) {
+			resourceDTO = new ResourceDTO();
+			resourceDTO.setAuthor(resource.getAuthor());
+			resourceDTO.setResourceUID(resource.getUid());
+			resourceDTO.setResourceURI(resource.getUri());
+			Set<Resource> resources = resource.getResources();
+			if (convertChidren && resources != null && resources.size() > 0) {
+				List<ResourceDTO> resourceList = new ArrayList<>();
+				for (Resource resourceItem : resources) {
+					resourceList.add(createDTO(resourceItem));
+				}
+				resourceDTO.setResourcesList(resourceList);
+			}
+		}
+		return resourceDTO;
+	}
+
+	public RevisionDTO convertToDTO(Revision revision) {
+		RevisionDTO resourceDTO = null;
+		if (revision != null) {
+			resourceDTO = new RevisionDTO(revision.getTitle(), revision.getCreatedAt(),
+					convertToDTO(revision.getResource(), false));
+			resourceDTO.setDeletedAt(revision.getDeletedAt());
+			resourceDTO.setUpdatedAt(revision.getUpdatedAt());
+		}
+		return resourceDTO;
+	}
 
     public ResourceDTO createDTO(Resource resource) {
         ResourceDTO resourceDTO = new ResourceDTO();

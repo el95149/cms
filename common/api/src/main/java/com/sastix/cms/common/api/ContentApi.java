@@ -66,4 +66,11 @@ public interface ContentApi {
      * @return a list of resources.
      */
     List<ResourceDTO> getCurrentResources(); 
+    
+    /**
+     * Fetches a list of all the revisions for a resource.
+     * @param resourceUID the Resource's UID to fetch the revisions for.
+     * @return a list of revisions.
+     */
+    List<RevisionDTO> getResourceRevisions(String resourceUID);
 }

@@ -27,6 +27,7 @@ import com.sastix.cms.common.content.CreateResourceDTO;
 import com.sastix.cms.common.content.LockedResourceDTO;
 import com.sastix.cms.common.content.ResourceDTO;
 import com.sastix.cms.common.content.ResourceQueryDTO;
+import com.sastix.cms.common.content.RevisionDTO;
 import com.sastix.cms.common.content.UpdateResourceDTO;
 
 /**
@@ -116,6 +117,14 @@ public class ResourceController {
 		ResourceDTO deletedResource = cmsClient.deleteResource(resource);
 		LOG.info(deletedResource.toString());
 		return "redirect:/resources";
+	}
+
+	@RequestMapping("/revisions")
+	public String getResourceRevisions(@RequestParam("uid") String uid, Model model) {
+		List<RevisionDTO> revisions = cmsClient.getResourceRevisions(uid);
+		LOG.info(revisions.toString());
+		model.addAttribute("revisions", revisions);
+		return "revisions";
 	}
 
 }

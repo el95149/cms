@@ -236,4 +236,11 @@ public class ResourceController implements BeanFactoryAware {
         return resourceDTOs;
     }
     
+    @RequestMapping(value = "/v" + Constants.REST_API_1_0 + "/" + Constants.GET_RESOURCE_REVISIONS, method = RequestMethod.POST)
+    public List<RevisionDTO> getResourceRevisions(@Valid @RequestBody String uid, BindingResult result) {
+        final List<RevisionDTO> revisionDTOs = resourceService.getResourceRevisions(uid);
+        LOG.trace("{}", revisionDTOs);
+        return revisionDTOs;
+    }
+
 }

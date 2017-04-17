@@ -16,35 +16,15 @@
 
 package com.sastix.cms.client.impl;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.sastix.cms.client.CacheClient;
-import com.sastix.cms.client.ContentClient;
-import com.sastix.cms.client.LockClient;
-import com.sastix.cms.common.Constants;
-import com.sastix.cms.common.api.CacheApi;
-import com.sastix.cms.common.api.ContentApi;
-import com.sastix.cms.common.api.LockApi;
-import com.sastix.cms.common.cache.CacheDTO;
-import com.sastix.cms.common.cache.QueryCacheDTO;
-import com.sastix.cms.common.cache.RemoveCacheDTO;
-import com.sastix.cms.common.cache.exceptions.CacheValidationException;
-import com.sastix.cms.common.cache.exceptions.DataNotFound;
-import com.sastix.cms.common.client.ApiVersionClient;
-import com.sastix.cms.common.client.RetryRestTemplate;
-import com.sastix.cms.common.content.*;
-import com.sastix.cms.common.content.exceptions.ContentValidationException;
-import com.sastix.cms.common.content.exceptions.ResourceAccessError;
-import com.sastix.cms.common.content.exceptions.ResourceNotFound;
-import com.sastix.cms.common.content.exceptions.ResourceNotOwned;
-import com.sastix.cms.common.dataobjects.ResponseDTO;
-import com.sastix.cms.common.dataobjects.VersionDTO;
-import com.sastix.cms.common.lock.LockDTO;
-import com.sastix.cms.common.lock.NewLockDTO;
-import com.sastix.cms.common.lock.QueryLockDTO;
-import com.sastix.cms.common.lock.exceptions.LockNotAllowed;
-import com.sastix.cms.common.lock.exceptions.LockNotFound;
-import com.sastix.cms.common.lock.exceptions.LockNotHeld;
-import com.sastix.cms.common.lock.exceptions.LockValidationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -59,14 +39,38 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import com.hazelcast.core.HazelcastInstance;
+import com.sastix.cms.client.CacheClient;
+import com.sastix.cms.client.ContentClient;
+import com.sastix.cms.client.LockClient;
+import com.sastix.cms.common.Constants;
+import com.sastix.cms.common.cache.CacheDTO;
+import com.sastix.cms.common.cache.QueryCacheDTO;
+import com.sastix.cms.common.cache.RemoveCacheDTO;
+import com.sastix.cms.common.cache.exceptions.CacheValidationException;
+import com.sastix.cms.common.cache.exceptions.DataNotFound;
+import com.sastix.cms.common.client.ApiVersionClient;
+import com.sastix.cms.common.client.RetryRestTemplate;
+import com.sastix.cms.common.content.CreateResourceDTO;
+import com.sastix.cms.common.content.DataDTO;
+import com.sastix.cms.common.content.LockedResourceDTO;
+import com.sastix.cms.common.content.ResourceDTO;
+import com.sastix.cms.common.content.ResourceQueryDTO;
+import com.sastix.cms.common.content.RevisionDTO;
+import com.sastix.cms.common.content.UpdateResourceDTO;
+import com.sastix.cms.common.content.exceptions.ContentValidationException;
+import com.sastix.cms.common.content.exceptions.ResourceAccessError;
+import com.sastix.cms.common.content.exceptions.ResourceNotFound;
+import com.sastix.cms.common.content.exceptions.ResourceNotOwned;
+import com.sastix.cms.common.dataobjects.ResponseDTO;
+import com.sastix.cms.common.dataobjects.VersionDTO;
+import com.sastix.cms.common.lock.LockDTO;
+import com.sastix.cms.common.lock.NewLockDTO;
+import com.sastix.cms.common.lock.QueryLockDTO;
+import com.sastix.cms.common.lock.exceptions.LockNotAllowed;
+import com.sastix.cms.common.lock.exceptions.LockNotFound;
+import com.sastix.cms.common.lock.exceptions.LockNotHeld;
+import com.sastix.cms.common.lock.exceptions.LockValidationException;
 
 @Service
 public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFactoryAware {
@@ -404,5 +408,14 @@ public class CmsClient implements ContentClient, LockClient, CacheClient, BeanFa
         LOG.debug("API call: " + url);
         List resourceDTOs = retryRestTemplate.getForObject(url.toString(), List.class);
 		return resourceDTOs;
+	}
+
+	@Override
+	public List<RevisionDTO> getResourceRevisions(String resourceUID) {
+		StringBuilder url = new StringBuilder(getUrlRoot()).append(Constants.GET_RESOURCE_REVISIONS);
+		LOG.debug("API call: " + url);
+		LOG.debug("resourceUID: " + resourceUID);
+		List revisionDTOs = retryRestTemplate.postForObject(url.toString(), resourceUID, List.class);
+		return revisionDTOs;
 	}
 }

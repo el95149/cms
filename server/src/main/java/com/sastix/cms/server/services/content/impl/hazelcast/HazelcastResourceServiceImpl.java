@@ -603,4 +603,10 @@ public class HazelcastResourceServiceImpl implements ResourceService {
 		return currentResources.stream().map(crs::convertToDTO).collect(Collectors.toCollection(ArrayList::new));
 	}
 
+	@Override
+	public List<RevisionDTO> getResourceRevisions(String resourceUID) {
+		List<Revision> revisions = revisionRepository.findRevisions(resourceUID);
+		return revisions.stream().map(crs::convertToDTO).collect(Collectors.toCollection(ArrayList::new));
+	}
+
 }

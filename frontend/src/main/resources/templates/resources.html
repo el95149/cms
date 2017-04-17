@@ -30,7 +30,8 @@
 						<td th:text="${resource.author}"></td>
 						<td th:text="${resource.resourceURI}"></td>
 						<td><a
-							th:href="@{/updateResource(uid=${resource.resourceUID})}">Edit</a></td>
+							th:href="@{/updateResource(uid=${resource.resourceUID})}">Edit</a>&nbsp;
+							<a th:href="@{/revisions(uid=${resource.resourceUID})}">Revisions</a></td>
 					</tr>
 				</tbody>
 			</table>

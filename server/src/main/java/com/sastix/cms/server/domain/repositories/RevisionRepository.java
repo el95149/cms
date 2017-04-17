@@ -36,4 +36,8 @@ public interface RevisionRepository extends CrudRepository<Revision, Long> {
 
     @Query("SELECT r FROM Revision r, Resource res WHERE r.resource.id = res.id AND res.uid = :uid ORDER BY r.id desc")
     List<Revision> findRevisions(@Param("uid") String uid, Pageable pageable);
+
+    @Query("SELECT r FROM Revision r, Resource res WHERE r.resource.id = res.id AND res.uid = :uid ORDER BY r.id desc")
+    List<Revision> findRevisions(@Param("uid") String uid);
+
 }
