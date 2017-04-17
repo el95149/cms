@@ -16,6 +16,7 @@
 
 package com.sastix.cms.client.config;
 
+import com.sastix.cms.client.impl.AuthInterceptor;
 import com.sastix.cms.common.cache.exceptions.CacheValidationException;
 import com.sastix.cms.common.cache.exceptions.DataNotFound;
 import com.sastix.cms.common.client.CmsRetryPolicy;
@@ -47,6 +48,12 @@ public class RestTemplateConfiguration {
 
     @Value("${cms.retry.maxAttempts:3}")
     private String maxAttempts;
+
+    @Value("${cms.server.user:user}")
+    private String username;
+
+    @Value("${cms.server.password:pass}")
+    private String password;
 
     private static final ConcurrentHashMap<String, ExceptionHandler> SUPPORTED_EXCEPTIONS = new ConcurrentHashMap<>();
 
@@ -112,6 +119,9 @@ public class RestTemplateConfiguration {
         //Set Retry Template
         retryRestTemplate.setRetryTemplate(getRetryTemplate());
 
+        //Add HTTP Basic Auth interceptor
+        retryRestTemplate.getInterceptors().add(new AuthInterceptor(username, password));
+        
         //Return the template instance
         return retryRestTemplate;
     }
